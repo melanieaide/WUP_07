@@ -27,17 +27,27 @@ state of a patient must be died or alive - we adjust that as well
   
 # Your Question - Is dying independent of sex?
 
+#Methods
 
+Result - categorical
+sex - categorical
 
+We use the cat~cat helper file.
 
+$H_O$: Dying is not independent of sex
 
+$H_A$: Dying is dependent of sex.
 
 ## Graphical results - use ggplot commands to do this  
 
 
+```{r}
+barchartGC(~result + Sex,data=kRdata)
+barchartGC(~result + Sex,data=kRdata, type="percent")
 
+```
   
-
+The bar chart shows that men die at a higher rate compared to women.
 
 
 
@@ -45,11 +55,23 @@ state of a patient must be died or alive - we adjust that as well
   
 ## Numerical results
 
+```{r}
+table1 <- xtabs(~result + Sex, data=kRdata)
+rowPerc(table1)
+colPerc(table1)
+```
+
+Among the people who die there was 64% of men who died and 36% of women who died.
 
 ## Inferential results 
 
+```{r}
+chisq.test(table1)
+chisqtestGC(table1)
+fisher.test(table1)
+```
 
-
+The  p value from the chi-square test was 0.001, so we reject the null hypothesis. We conclude that dying is dependent of sex. 2.3% of men are more likly to die of covid 19 in Korea than women in Korea.
 
 ## Conclusions
-
+In conclusion, deaths from covid 19 in korea are dependent on sex. In the fisher's exact test, it shows that men are 2.3 times more likely to die from covid than women. We got this from the cat~cat file. The p value was 0.01, meaning that we reject the null hypothesis because it is less than 0.05. 
